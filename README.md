@@ -44,11 +44,15 @@ spec:
    kubectl apply -f runner-deployment.yaml
 
 7. Verify that the runners are created and registered:
+   
  ➜  nir777ert777 kubectl get runners
+ 
 NAME                              ENTERPRISE   ORGANIZATION   REPOSITORY                         GROUP   LABELS   STATUS    MESSAGE   WF REPO   WF RUN   AGE
+
 scopio-runnerdeploy-hmj26-z776r                               t39229/actions-runner-controller                    Running                                32m
 
-8. Check your GitHub repository settings to confirm that the runners are connected.
+9. Check your GitHub repository settings to confirm that the runners are connected.
+    
    <img width="783" height="233" alt="image" src="https://github.com/user-attachments/assets/d713e111-118d-47f9-bba3-b088615017ff" />
 
 Task 2: Create GitHub Workflow:
