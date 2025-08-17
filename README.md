@@ -16,15 +16,20 @@ kubectl get nodes
 
 Step 2: Patch & Sing SecurityBoot Machine via Github Action + Helm
 Task 1: Deploy GitHub Runner via Helm:
+
 1. Create namespace ci-runners
 2. Add the action-runner-controller Helm repository:
+   
 helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller && helm repo update
-3. Install the action-runner-controller using Helm:
+
+4. Install the action-runner-controller using Helm:
+   
    helm install actions-runner-controller actions-runner-controller/actions-runner-controller \
   --namespace ci-runners \
   --set authSecret.create=true \
   --set authSecret.github_token=<YOUR_GITHUB_token>
-4.  Create a YAML file (e.g., runner-deployment.yaml) to define your runner deployment:
+  
+5.  Create a YAML file (e.g., runner-deployment.yaml) to define your runner deployment:
    apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
@@ -35,15 +40,15 @@ spec:
     spec:
       repository: <YOUR_GITHUB_USERNAME>/<YOUR_REPOSITORY_NAME>
 
-5. Apply the runner deployment:
+6. Apply the runner deployment:
    kubectl apply -f runner-deployment.yaml
 
-6. Verify that the runners are created and registered:
+7. Verify that the runners are created and registered:
  ➜  nir777ert777 kubectl get runners
 NAME                              ENTERPRISE   ORGANIZATION   REPOSITORY                         GROUP   LABELS   STATUS    MESSAGE   WF REPO   WF RUN   AGE
 scopio-runnerdeploy-hmj26-z776r                               t39229/actions-runner-controller                    Running                                32m
 
-7. Check your GitHub repository settings to confirm that the runners are connected.
+8. Check your GitHub repository settings to confirm that the runners are connected.
    <img width="783" height="233" alt="image" src="https://github.com/user-attachments/assets/d713e111-118d-47f9-bba3-b088615017ff" />
 
 Task 2: Create GitHub Workflow:
