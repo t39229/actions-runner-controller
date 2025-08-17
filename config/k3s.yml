@@ -1,0 +1,79 @@
+---
+- hosts: k3s_server
+  become: yes
+  tasks:
+    - name: Install dependencies
+      apt:
+        name:
+          - curl
+          - ca-certificates
+        update_cache: yes
+        state: present
+
+    - name: Check UFW status
+      command: ufw status
+      register: ufw_status
+      ignore_errors: yes # Continue even if ufw is not installed/enabled
+
+    - name: Enable UFW
+      command: ufw enable
+      when: "'inactive' in ufw_status.stdout" # Only enable if it's inactive
+      ignore_errors: yes  #In case UFW is not installed, continue the playbook
+
+    - name: Allow SSH (22/tcp)
+      ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+      when: "'inactive' not in ufw_status.stdout" # Only allow if UFW is enabled
+
+    - name: Allow K3s API (6443/tcp)
+      ufw:
+        rule: allow
+        port: '6443'
+        proto: tcp
+      when: "'inactive' not in ufw_status.stdout" # Only allow if UFW is enabled
+
+    - name: Allow K3s NodePort Range (30000:32767/tcp) #Added for accessing NodePort Services
+      ufw:
+        rule: allow
+        port: '30000:32767'
+        proto: tcp
+      when: "'inactive' not in ufw_status.stdout" # Only allow if UFW is enabled
+
+    - name: Allow K3s NodePort Range (30000:32767/udp) #Added for accessing NodePort Services
+      ufw:
+        rule: allow
+        port: '30000:32767'
+        proto: udp
+      when: "'inactive' not in ufw_status.stdout" # Only allow if UFW is enabled
+
+    - name: Allow K3s Wireguard Port (51820/udp) #Added for accessing Wireguard
+      ufw:
+        rule: allow
+        port: '51820'
+        proto: udp
+      when: "'inactive' not in ufw_status.stdout" # Only allow if UFW is enabled
+
+    - name: Install K3s
+      shell: curl -sfL https://get.k3s.io | sh -
+
+    - name: Get K3s token
+      slurp:
+        path: /var/lib/rancher/k3s/server/node-token
+      register: k3s_token
+
+    - name: Display K3s token
+      debug:
+        msg: "K3s Token: {{ k3s_token.content | b64decode }}"
+
+    - name: Get Kubeconfig file
+      slurp:
+        path: /etc/rancher/k3s/k3s.yaml
+      register: kubeconfig_file
+
+    - name: Decode and save Kubeconfig file
+      copy:
+        dest: ./kubeconfig.yml  # Saves the kubeconfig locally
+        content: "{{ kubeconfig_file.content | b64decode }}"
+        mode: '0600'
