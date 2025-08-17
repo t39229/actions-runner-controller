@@ -87,7 +87,7 @@ githubTokenSecret:
   create: true
   name: github-token
   stringData:
-    github_token: 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
+    github_token: <yout_token>
 # Use the created secret as the token value
 githubToken:
   valueFrom:
