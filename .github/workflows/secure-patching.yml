@@ -13,14 +13,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Debug SSH connection
+        run: |
+          ssh -vvv -o StrictHostKeyChecking=no nir777ert777@12.10.10.4 echo "SSH connection test"
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSHPRIVATEKEY }}
+
       - name: SSH and Patch
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 12.10.10.4
           username: nir777ert777
-          key: ${{ secrets.SSHPRIVATEKEY }}       # SSH Private key stored in GitHub secrets
+          key: ${{ secrets.SSHPRIVATEKEY }}
+          debug: true
           script: |
             set -e  # Exit immediately if any command fails
+            echo "Connected successfully"
             # Update package lists and upgrade installed packages
             sudo apt update && sudo apt upgrade -y
             # Sign the kernel modules
@@ -31,3 +39,4 @@ jobs:
       - name: Print Result
         run: |
           echo "Patching and signing completed (or failed)."
+
