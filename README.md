@@ -21,7 +21,7 @@ Step 1: Provision K3s on devops-int
 export KUBECONFIG=$PWD/kubeconfig.yml
 
 13. Verify k3s master node is running
-14. 
+    
 kubectl get nodes
 
 Step 2: Patch & Sing SecurityBoot Machine via Github Action + Helm
