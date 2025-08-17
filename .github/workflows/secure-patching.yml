@@ -19,16 +19,12 @@ jobs:
           host: 12.10.10.4
           username: nir777ert777
           key: ${{ secrets.SSH_PRIVATE_KEY }}       # SSH Private key stored in GitHub secrets
-          options: StrictHostKeyChecking=yes  # Enforce strict host key checking
           script: |
             set -e  # Exit immediately if any command fails
-
             # Update package lists and upgrade installed packages
             sudo apt update && sudo apt upgrade -y
-
             # Sign the kernel modules
             sudo python3 /opt/secureboot/scripts/sign-kernel-modules.py
-
             # Check Secure Boot state
             mokutil --sb-state
 
