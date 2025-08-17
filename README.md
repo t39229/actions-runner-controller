@@ -124,7 +124,9 @@ Screenshot of successful GitHub Action run.
     <img width="1662" height="666" alt="image" src="https://github.com/user-attachments/assets/c2dda2f2-7702-4a57-a714-e95ea9734480" />
 
 kubectl get po -n ci-runners
+
 NAME                                         READY   STATUS    RESTARTS   AGE
+
 actions-runner-controller-559597c7d5-f8x79   2/2     Running   0          4h14m
 
     
