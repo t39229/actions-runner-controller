@@ -3,18 +3,29 @@ actions-runner-controller
 
 Step 1: Provision K3s on devops-int
 1.Create 3 instances ubuntu 22.04 (devops-init, devops-init-2, scopioboxVimg)
+
 2.Run script ssh_add_keys_to_nodes.sh (contains loop that scans keys, adds them to known hosts, copies the autorized key for remote host, remove password auth for sudo at remote host and blocks passwordauth)
+
 3. Install last version of ansible on devops-init
+   
 4.Create config folder contains inventory.ini, k3s.yml
+
 5. Populate inventory.ini hostanme=devops-init-2
-6. Create ansible playbook (k3s,yaml)
-7. Run ansible-playbook -i inventory.ini k3s.yml
-8. After the playbook runs successfully, you'll have a kubeconfig.yml file in the same directory.  You need to tell kubectl to use this file to connect to your K3s cluster:
+   
+7. Create ansible playbook (k3s,yaml)
+   
+9. Run ansible-playbook -i inventory.ini k3s.yml
+    
+11. After the playbook runs successfully, you'll have a kubeconfig.yml file in the same directory.  You need to tell kubectl to use this file to connect to your K3s cluster:
+    
 export KUBECONFIG=$PWD/kubeconfig.yml
-9. Verify k3s master node is running
+
+13. Verify k3s master node is running
+14. 
 kubectl get nodes
 
 Step 2: Patch & Sing SecurityBoot Machine via Github Action + Helm
+
 Task 1: Deploy GitHub Runner via Helm:
 
 1. Create namespace ci-runners
