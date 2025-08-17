@@ -13,29 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup SSH Key
-        run: |
-          eval $(ssh-agent -s)
-          ssh-add - <<< "${{ secrets.SSHPRIVATEKEY }}"
-          mkdir -p ~/.ssh
-          ssh-keyscan -H 12.10.10.4 >> ~/.ssh/known_hosts
-
-      - name: Debug SSH connection
-        run: ssh -v nir777ert777@12.10.10.4 echo "SSH connection test"
-  
-      - name: Debug SSH connection
-        run: |
-          ssh -vvv -o StrictHostKeyChecking=no nir777ert777@12.10.10.4 echo "SSH connection test"
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSHPRIVATEKEY }}
-
       - name: SSH and Patch
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: 12.10.10.4
           username: nir777ert777
-          key: ${{ secrets.SSHPRIVATEKEY }}
-          debug: true
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             set -e  # Exit immediately if any command fails
             echo "Connected successfully"
