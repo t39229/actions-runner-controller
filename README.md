@@ -16,11 +16,11 @@ Step 1: Provision K3s on devops-int
    
 9. Run ansible-playbook -i inventory.ini k3s.yml
     
-11. After the playbook runs successfully, you'll have a kubeconfig.yml file in the same directory.  You need to tell kubectl to use this file to connect to your K3s cluster:
+8. After the playbook runs successfully, you'll have a kubeconfig.yml file in the same directory.  You need to tell kubectl to use this file to connect to your K3s cluster:
     
 export KUBECONFIG=$PWD/kubeconfig.yml
 
-13. Verify k3s master node is running
+10. Verify k3s master node is running
     
 kubectl get nodes
 
