@@ -3,13 +3,13 @@ actions-runner-controller
 
 Step 1: Provision K3s on devops-int
 
-1.Create 3 instances ubuntu 22.04 (devops-init, devops-init-2, scopioboxVimg)
+1. Create 3 instances ubuntu 22.04 (devops-init, devops-init-2, scopioboxVimg)
 
-2.Run script ssh_add_keys_to_nodes.sh (contains loop that scans keys, adds them to known hosts, copies the autorized key for remote host, remove password auth for sudo at remote host and blocks passwordauth)
+2. Run script ssh_add_keys_to_nodes.sh (contains loop that scans keys, adds them to known hosts, copies the autorized key for remote host, remove password auth for sudo at remote host and blocks passwordauth)
 
 3. Install last version of ansible on devops-init
    
-4.Create config folder contains inventory.ini, k3s.yml
+4. Create config folder contains inventory.ini, k3s.yml
 
 5. Populate inventory.ini hostanme=devops-init-2
    
@@ -34,14 +34,14 @@ Task 1: Deploy GitHub Runner via Helm:
    
 helm repo add actions-runner-controller https://actions-runner-controller.github.io/actions-runner-controller && helm repo update
 
-4. Install the action-runner-controller using Helm:
+3. Install the action-runner-controller using Helm:
    
    helm install actions-runner-controller actions-runner-controller/actions-runner-controller \
   --namespace ci-runners \
   --set authSecret.create=true \
   --set authSecret.github_token=<YOUR_GITHUB_token>
   
-5.  Create a YAML file (e.g., runner-deployment.yaml) to define your runner deployment:
+4.  Create a YAML file (e.g., runner-deployment.yaml) to define your runner deployment:
    apiVersion: actions.summerwind.dev/v1alpha1
 kind: RunnerDeployment
 metadata:
@@ -52,10 +52,10 @@ spec:
     spec:
       repository: <YOUR_GITHUB_USERNAME>/<YOUR_REPOSITORY_NAME>
 
-6. Apply the runner deployment:
+5. Apply the runner deployment:
    kubectl apply -f runner-deployment.yaml
 
-7. Verify that the runners are created and registered:
+6. Verify that the runners are created and registered:
    
  ➜  nir777ert777 kubectl get runners
  
@@ -63,7 +63,7 @@ NAME                              ENTERPRISE   ORGANIZATION   REPOSITORY        
 
 scopio-runnerdeploy-hmj26-z776r                               t39229/actions-runner-controller                    Running                                32m
 
-9. Check your GitHub repository settings to confirm that the runners are connected.
+7. Check your GitHub repository settings to confirm that the runners are connected.
     
    <img width="783" height="233" alt="image" src="https://github.com/user-attachments/assets/d713e111-118d-47f9-bba3-b088615017ff" />
 
